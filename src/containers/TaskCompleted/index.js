@@ -1,0 +1,1 @@
+export const TaskCompleted = () => console.log("TaskCompleted")

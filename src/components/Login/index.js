@@ -1,0 +1,1 @@
+export const Login = () => console.log("Login")
