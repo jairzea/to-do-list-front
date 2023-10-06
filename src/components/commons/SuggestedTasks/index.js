@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { CardItem } from "../CardItem"
 import { getSuggestedTasks } from "../../../services/tasks"
-import { Alert, Button, ButtonGroup, Col, Container, Row } from "react-bootstrap"
+import { Alert, Button, ButtonGroup, Container } from "react-bootstrap"
 import { TooltipUI } from "../TooltipUI"
 import { PageHeader } from "../PageHeader"
 import { useTodoStore } from "../../../state/store"
