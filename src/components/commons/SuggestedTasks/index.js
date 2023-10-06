@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
 import { CardItem } from "../CardItem"
 import { getSuggestedTasks } from "../../../services/tasks"
-import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap"
+import { Button, ButtonGroup, Container } from "react-bootstrap"
+import { TooltipUI } from "../TooltipUI"
+import { PageHeader } from "../PageHeader"
+import { useTodoStore } from "../../../state/store"
 
 export const SuggestedTasks = () => {
     const [tasks, setTasks] = useState([])
+    const { addTask } = useTodoStore();
 
     const callService = async () => {
         try {
@@ -15,29 +19,26 @@ export const SuggestedTasks = () => {
         }
     }
 
-    console.log("tasks", tasks);
-
     useEffect(()=>{
         callService()
     },[])
 
     return(
         <Container className="mb-4">
-            <Row className="mb-2">
-                <Col md={6}>
-                    <h5>Tareas sugeridas</h5>
-                </Col>
-                <Col md={6}>
-                    <Button variant="outline-primary" className="float-end">Nueva tarea</Button>
-                </Col>
-            </Row>
-            
+            <PageHeader tittle="Tareas sugeridas" subTittle="Dale click y añade una tarea."/>
             <div className="task-grid-container bg-light">
                 <div className="task-grid p-3">
-                    {tasks.map((item) => <ButtonGroup key={item?.id} aria-label="Basic example">
-                                            <CardItem  content={item?.title}/>
-                                            <Button Size="sm" variant="secondary">+</Button>
-                                        </ButtonGroup>)}
+                    {tasks.map((item) => 
+                        <ButtonGroup key={item?.id}>
+                            <CardItem >
+                                <TooltipUI title="Añade esta tarea">
+                                    <Button size="sm" variant="secondary" onClick={()=>addTask('todo', item)}>
+                                        <small>{item?.content}</small>
+                                    </Button>
+                                    </TooltipUI>
+                            </CardItem>
+                        </ButtonGroup>
+                    )}
                 </div>
             </div>
         </Container>

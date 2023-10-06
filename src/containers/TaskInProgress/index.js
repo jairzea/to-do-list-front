@@ -4,16 +4,16 @@ import Layout from "../../layouts/Layout";
 import { useTodoStore } from "../../state/store";
 import TaskListPaginated from "../../components/TaskListPaginated";
 
-export const TaskPending = () => {
+export const TaskInProgress = () => {
   const { taskList } = useTodoStore();
-  const pendingTasks = taskList.todo.tasks;
+  const inProgressTasks = taskList.inProgress.tasks;
 
   return (
     <Layout>
-      <PageHeader tittle="Tareas pendintes" subTittle="Estas son tus tareas pendientes"/>
+      <PageHeader tittle="Tareas en progreso" subTittle="Estas son tus tareas en curso"/>
       <Row>
           <Col md={12}>
-            <TaskListPaginated tasks={pendingTasks} pageSize={5} />
+            <TaskListPaginated tasks={inProgressTasks} pageSize={5} />
           </Col>
         </Row>
     </Layout>

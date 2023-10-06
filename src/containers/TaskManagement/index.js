@@ -1,65 +1,61 @@
 import { Col, Container, Row } from "react-bootstrap";
 import Layout from "../../layouts/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { TaskList } from "../../components/commons/TaskList";
 import { SuggestedTasks } from "../../components/commons/SuggestedTasks";
-
-const initialData = {
-  todo: {
-    title: 'POR HACER',
-    id: 1,
-    tasks: [
-      { id: 'task-1', content: 'Tarea 1' },
-      { id: 'task-2', content: 'Tarea 2' },
-      { id: 'task-3', content: 'Tarea 3' },
-    ],
-  },
-  inProgress: {
-    id: 2,
-    title: 'EN CURSO',
-    tasks: [],
-  },
-  done: {
-    id: 1,
-    title: 'LISTO',
-    tasks: [],
-  },
-};
+import { useTodoStore } from "../../state/store";
 
 export const TaskManagement = () => {
 
-    const [data, setData] = useState(initialData);
+    const { taskList, setTaskList } = useTodoStore();
+    const [data, setData] = useState([]);
 
-  const onDragEnd = (result) => {
-    const { source, destination, draggableId } = result;
+    useEffect(()=>{
+        setData(taskList)
+    },[taskList])
 
-    if (!destination) return; // El elemento se soltó fuera de una lista válida
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
 
-    const sourceList = data[source.droppableId];
-    const destList = data[destination.droppableId];
-    const movedTask = sourceList.tasks[source.index];
+        if (!destination) return; 
 
-    sourceList.tasks.splice(source.index, 1);
-    destList.tasks.splice(destination.index, 0, movedTask);
+        const sourceListId = source.droppableId;
+        const destListId = destination.droppableId;
+        const sourceIndex = source.index;
+        const destIndex = destination.index;
 
-    setData({ ...data });
-  };
-  return (
-    <Layout>
-        <SuggestedTasks/>
-        <Container>
-            <h5>Administrador de Tareas</h5>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Row>
-                    {Object.keys(data).map((key) => (
-                        <Col key={key} md={4}>
-                            <TaskList key={key} id={key} title={data[key].title} tasks={data[key].tasks} />
-                        </Col>
-                    ))}
-                </Row>
-            </DragDropContext>
-        </Container>
-    </Layout>
-  );
+        // Copia el estado actual
+        const updatedTaskList = { ...taskList };
+
+        // Obtiene las listas de tareas de origen y destino
+        const sourceList = updatedTaskList[sourceListId];
+        const destList = updatedTaskList[destListId];
+
+        // Obtiene la tarea movida
+        const movedTask = sourceList.tasks.splice(sourceIndex, 1)[0];
+
+        // Inserta la tarea en la lista de destino en la posición correcta
+        destList.tasks.splice(destIndex, 0, movedTask)
+
+        // Actualiza el estado con el nuevo orden
+        setTaskList(updatedTaskList);
+    };
+    return (
+        <Layout>
+            <SuggestedTasks/>
+            <Container>
+                <h5>Administrador de Tareas</h5>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Row>
+                        {Object.keys(data).map((key) => (
+                            <Col key={key} md={4}>
+                                <TaskList key={key} id={key} listName={data[key]?.listName} title={data[key].title} tasks={data[key].tasks} />
+                            </Col>
+                        ))}
+                    </Row>
+                </DragDropContext>
+            </Container>
+        </Layout>
+    );
 };

@@ -58,3 +58,7 @@
   gap: 16px; /* Espacio entre las tarjetas */
   justify-items: center;
 }
+
+.text-sm{
+  font-size: .875rem;
+}

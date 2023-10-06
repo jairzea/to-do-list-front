@@ -6,7 +6,8 @@ import { Login } from '../components/Login';
 import { TaskCompleted } from '../containers/TaskCompleted';
 import { ProtectedRoute } from './ProtectedRoute';
 import { useAuth } from '../hooks/useAuth';
-import { LOGIN_PATH, TASKS_COMPLETED, TASKS_MANAGEMENT, TASKS_PENDING } from '../constants/routeNames';
+import { LOGIN_PATH, TASKS_COMPLETED, TASKS_IN_PROGRESS, TASKS_MANAGEMENT, TASKS_PENDING } from '../constants/routeNames';
+import { TaskInProgress } from '../containers/TaskInProgress';
 
 const AppRoutes = () => {
 
@@ -26,6 +27,10 @@ const AppRoutes = () => {
         <Route
             path={TASKS_COMPLETED}
             element={<ProtectedRoute component={<TaskCompleted />} />}
+        />
+        <Route
+            path={TASKS_IN_PROGRESS}
+            element={<ProtectedRoute component={<TaskInProgress />} />}
         />
         <Route path="/" element={<Navigate to={LOGIN_PATH}/>} />
     </Routes>
