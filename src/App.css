@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.to-do-list_nav-dark:hover, .to-do-list_nav-dark.active{
+  background-color: black !important;
+  color: white !important;
+}
+
+.to-do-list_nav-gray:hover, .to-do-list_nav-gray.active{
+  background-color: rgb(46, 41, 41) !important;
+  color: white !important;
+}
+
+.task-grid-container {
+  max-height: 300px; /* Establece la altura máxima deseada */
+  overflow-x: auto; /* Agrega scroll vertical si el contenido supera la altura máxima */
+}
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Crea 4 columnas de igual ancho */
+  gap: 16px; /* Espacio entre las tarjetas */
+  justify-items: center;
+}

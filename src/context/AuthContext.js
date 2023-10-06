@@ -6,7 +6,7 @@ const AuthContext = createContext();
 
 // Proveedor de autenticación
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   // Verificar si el usuario está autenticado
   useEffect(() => {
